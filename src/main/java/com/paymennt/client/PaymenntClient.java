@@ -131,7 +131,7 @@ public class PaymenntClient {
 
     private URI getURI(String path, Map<String, Object> parameters) throws URISyntaxException {
         URIBuilder uriBuilder = new URIBuilder(env.getBaseUrl());
-        uriBuilder = uriBuilder.setPath(env.getBaseUrl() + "/" + path);
+        uriBuilder = uriBuilder.setPath( "/" + path);
 
         if (parameters != null) {
             for (Map.Entry<String, Object> entry : parameters.entrySet()) {
@@ -157,7 +157,8 @@ public class PaymenntClient {
 
     public enum PaymenntEnvironment {
         LIVE("https://api.paymennt.com/mer/v2.0"),
-        TEST("https://api.test.paymennt.com/mer/v2.0");
+        TEST("https://api.test.paymennt.com/mer/v2.0"),
+        LOCAL("http://localhost:8080/mer/v2.0");
 
         private final String baseUrl;
 
