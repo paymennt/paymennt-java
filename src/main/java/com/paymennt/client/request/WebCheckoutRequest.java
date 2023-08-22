@@ -4,8 +4,7 @@
 package com.paymennt.client.request;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.paymennt.client.exception.PaymenntApiException;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.paymennt.client.exception.PaymenntClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -15,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 import java.util.Set;
 
@@ -38,11 +36,9 @@ public class WebCheckoutRequest extends AbstractCheckoutRequest {
     private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
 
     @NotBlank
-    @Schema(description = "URL to redirect user to after a successful or failed payment.",
-            example = "https://shop.example.com/payment-redirect/")
     private String returnUrl;
 
-    public void validate() {
+    public void validate() throws Exception {
         Validator validator = VALIDATOR_FACTORY.getValidator();
         Set<ConstraintViolation<WebCheckoutRequest>> violations = validator.validate(this);
 
@@ -54,7 +50,7 @@ public class WebCheckoutRequest extends AbstractCheckoutRequest {
                 String message = violation.getMessage();
                 errorMessage.append("- ").append(fieldName).append(": ").append(message).append("\n");
             }
-            throw new PaymenntApiException(HttpStatus.BAD_REQUEST, "Validation error: " + errorMessage);
+            throw new PaymenntClientException("Validation error: " + errorMessage);
         }
     }
 }
