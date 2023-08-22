@@ -76,7 +76,7 @@ public class ApiClient {
         return objectMapper.convertValue(response.getBody().getResult(), responseType);
     }
 
-    private enum PaymenntEnvironment {
+    public enum PaymenntEnvironment {
         LIVE("https://api.paymennt.com/mer/v2.0/"),
         TEST("https://api.test.paymennt.com/mer/v2.0/");
 
