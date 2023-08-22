@@ -13,12 +13,12 @@ public class CheckoutOperations extends AbstractOperations {
 
     public Checkout createWebCheckout(WebCheckoutRequest webCheckoutRequest) throws PaymenntClientException {
         webCheckoutRequest.validate();
-        String path = "checkout/web";
+        String path = "mer/v2.0/checkout/web";
         return this.client.doPost(path, null, webCheckoutRequest, null, Checkout.class);
     }
 
     public Checkout getCheckout(String checkoutId) throws PaymenntClientException {
-        String path = "checkout/" + checkoutId;
+        String path = "mer/v2.0/checkout/" + checkoutId;
         return this.client.doGet(path, null, null, Checkout.class);
     }
 }
