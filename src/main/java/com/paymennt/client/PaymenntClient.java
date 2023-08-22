@@ -12,15 +12,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -36,11 +36,7 @@ import java.util.Map;
 
 public class PaymenntClient {
 
-    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-
-    CloseableHttpClient httpClient = HttpClients.custom()
-            .setConnectionManager(connectionManager)
-            .build();
+    private final HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
     private static final String API_KEY_HEADER = "X-Paymennt-Api-Key";
     private static final String API_SECRET_HEADER = "X-Paymennt-Api-Secret";
 
@@ -81,7 +77,7 @@ public class PaymenntClient {
             this.setHeaders(get, headers);
             return this.execute(get, cast);
         } catch (Exception e) {
-            throw new PaymenntClientException(e.getMessage());
+            throw new PaymenntClientException(e.getMessage(),e);
         }
     }
 
@@ -130,8 +126,8 @@ public class PaymenntClient {
     }
 
     private URI getURI(String path, Map<String, Object> parameters) throws URISyntaxException {
-        URIBuilder uriBuilder = new URIBuilder(env.getBaseUrl());
-        uriBuilder = uriBuilder.setPath( "/" + path);
+        URIBuilder uriBuilder = new URIBuilder();
+        uriBuilder = uriBuilder.setPath(env.getBaseUrl()+ "/" + path);
 
         if (parameters != null) {
             for (Map.Entry<String, Object> entry : parameters.entrySet()) {
@@ -158,7 +154,7 @@ public class PaymenntClient {
     public enum PaymenntEnvironment {
         LIVE("https://api.paymennt.com/mer/v2.0"),
         TEST("https://api.test.paymennt.com/mer/v2.0"),
-        LOCAL("http://localhost:8080/mer/v2.0");
+        LOCAL("http://localhost:8080/api/mer/v2.0");
 
         private final String baseUrl;
 
