@@ -13,6 +13,8 @@
 		<jackson.version>2.12.7.1</jackson.version>
 		<httpclient.version>4.5.13</httpclient.version>
 		<commons-lang3.version>3.9</commons-lang3.version>
+		<maven.compiler.source>20</maven.compiler.source>
+		<maven.compiler.target>20</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>

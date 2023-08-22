@@ -12,15 +12,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -36,7 +36,11 @@ import java.util.Map;
 
 public class PaymenntClient {
 
-    private final HttpClient httpClient = new DefaultHttpClient(new PoolingClientConnectionManager());
+    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+
+    CloseableHttpClient httpClient = HttpClients.custom()
+            .setConnectionManager(connectionManager)
+            .build();
     private static final String API_KEY_HEADER = "X-Paymennt-Api-Key";
     private static final String API_SECRET_HEADER = "X-Paymennt-Api-Secret";
 
