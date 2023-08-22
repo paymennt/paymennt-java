@@ -11,7 +11,7 @@ public class CheckoutOperations extends AbstractOperations {
         super(client);
     }
 
-    public Checkout createWebCheckout(WebCheckoutRequest webCheckoutRequest) throws Exception {
+    public Checkout createWebCheckout(WebCheckoutRequest webCheckoutRequest) throws PaymenntClientException {
         webCheckoutRequest.validate();
         String path = "checkout/web";
         return this.client.doPost(path, null, webCheckoutRequest, null, Checkout.class);

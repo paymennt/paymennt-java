@@ -38,7 +38,7 @@ public class WebCheckoutRequest extends AbstractCheckoutRequest {
     @NotBlank
     private String returnUrl;
 
-    public void validate() throws Exception {
+    public void validate() throws PaymenntClientException {
         Validator validator = VALIDATOR_FACTORY.getValidator();
         Set<ConstraintViolation<WebCheckoutRequest>> violations = validator.validate(this);
 
