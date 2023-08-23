@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Utility class for JSON-related operations using Jackson ObjectMapper.
+ * This class provides methods for encoding, decoding, and validating JSON objects.
+ * It also configures the default ObjectMapper with specific features.
  *
  * @author Ankur
  */
@@ -47,12 +50,20 @@ public class JsonUtils {
     }
 
     /**
-     * @return the mapper
+     * Returns the configured ObjectMapper instance.
+     *
+     * @return The ObjectMapper instance.
      */
     public static ObjectMapper getObjectMapper() {
         return JsonUtils.OBJECT_MAPPER;
     }
 
+    /**
+     * Checks if an object can be encoded and decoded as JSON.
+     *
+     * @param object The object to check.
+     * @return True if encoding and decoding is possible, otherwise false.
+     */
     public static boolean canEncodeDecode(Object object) {
         Class<?> objectClass = object.getClass();
         if (JsonUtils.ENCODE_DECODE_MAP.containsKey(objectClass))
@@ -64,6 +75,13 @@ public class JsonUtils {
         return canEncodeDecode;
     }
 
+    /**
+     * Encodes an object to JSON string.
+     *
+     * @param object The object to encode.
+     * @return The JSON string representation of the object.
+     * @throws PaymenntClientException If encoding fails.
+     */
     public static String encode(Object object) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.writeValueAsString(object);
@@ -72,6 +90,13 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Encodes an object to a pretty-printed JSON string.
+     *
+     * @param object The object to encode.
+     * @return The pretty-printed JSON string representation of the object.
+     * @throws PaymenntClientException If encoding fails.
+     */
     public static String encodePretty(Object object) throws PaymenntClientException {
         try {
             JsonUtils.OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -83,6 +108,13 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes an InputStream to a map of key-value pairs.
+     *
+     * @param inputStream The InputStream to decode.
+     * @return The decoded map.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static Map<String, Object> decode(InputStream inputStream) throws PaymenntClientException {
         try {
             TypeReference<HashMap<String, Object>> typeReference = new TypeReference<HashMap<String, Object>>() {};
@@ -92,6 +124,15 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes an InputStream to an object of a specified class.
+     *
+     * @param inputStream The InputStream to decode.
+     * @param toValueType The class to decode to.
+     * @param <T> The type of the result.
+     * @return The decoded object.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static <T> T decode(InputStream inputStream, Class<T> toValueType) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.readValue(inputStream, toValueType);
@@ -100,6 +141,13 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes a JSON string to a map of key-value pairs.
+     *
+     * @param jsonString The JSON string to decode.
+     * @return The decoded map.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static Map<String, Object> decode(String jsonString) throws PaymenntClientException {
         try {
             TypeReference<HashMap<String, Object>> typeReference = new TypeReference<HashMap<String, Object>>() {};
@@ -109,6 +157,15 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes a JSON string to an object of a specified class.
+     *
+     * @param jsonString The JSON string to decode.
+     * @param toValueType The class to decode to.
+     * @param <T> The type of the result.
+     * @return The decoded object.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static <T> T decode(String jsonString, Class<T> toValueType) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.readValue(jsonString, toValueType);
@@ -117,6 +174,15 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes a JSON string to an object of a specified JavaType.
+     *
+     * @param jsonString The JSON string to decode.
+     * @param javaType The JavaType to decode to.
+     * @param <T> The type of the result.
+     * @return The decoded object.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static <T> T decode(String jsonString, JavaType javaType) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.readValue(jsonString, javaType);
@@ -125,6 +191,15 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes a JSON string to an object using a TypeReference.
+     *
+     * @param jsonString The JSON string to decode.
+     * @param typeReference The TypeReference describing the target type.
+     * @param <T> The type of the result.
+     * @return The decoded object.
+     * @throws PaymenntClientException If decoding fails.
+     */
     public static <T> T decode(String jsonString, TypeReference<T> typeReference) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.readValue(jsonString, typeReference);
@@ -133,6 +208,15 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * Decodes an object to another class using ObjectMapper's conversion.
+     *
+     * @param object The object to convert.
+     * @param toValueType The class to convert to.
+     * @param <T> The type of the result.
+     * @return The converted object.
+     * @throws PaymenntClientException If conversion fails.
+     */
     public static <T> T decode(Object object, Class<T> toValueType) throws PaymenntClientException {
         try {
             return JsonUtils.OBJECT_MAPPER.convertValue(object, toValueType);

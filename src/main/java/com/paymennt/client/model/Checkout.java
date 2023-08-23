@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import java.math.BigDecimal;
 
 /**
+ * Represents a checkout in the Paymennt system.
+ * This class encapsulates various details related to a checkout.
  *
  * @author Ankur
  */
@@ -44,6 +46,9 @@ public class Checkout {
         private String firebaseDocument;
         private DateTime timestamp;
 
+        /**
+         * Represents the status of a checkout.
+         */
         public enum CheckoutStatus {
                 PENDING,
                 AUTHORIZED,
@@ -57,6 +62,9 @@ public class Checkout {
                 CHARGEBACK;
         }
 
+        /**
+         * Represents a payment view or method.
+         */
         public enum PaymentView {
                 POINTCHECKOUT("PointCheckout", false),
                 CARD("Debit/Credit Cards"),
@@ -83,7 +91,6 @@ public class Checkout {
                         this.hasDetails = hasDetails;
                 }
 
-
                 @Override
                 public String toString() {
                         switch (this) {
@@ -93,6 +100,5 @@ public class Checkout {
                                         return this.label;
                         }
                 }
-
         }
 }

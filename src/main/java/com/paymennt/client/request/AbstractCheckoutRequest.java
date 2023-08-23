@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Represents an abstract checkout request.
+ * This class holds various properties and nested classes related to checkout requests.
+ * It is meant to be extended for specific types of checkout requests.
  *
  * @author Ankur
  */
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -81,7 +83,9 @@ public class AbstractCheckoutRequest {
     @NotEmpty
     private List<CheckoutItem> items;
 
-
+    /**
+     * Represents a checkout address.
+     */
     @Getter
     @Setter
     public static class CheckoutAddress implements Serializable {
@@ -114,6 +118,9 @@ public class AbstractCheckoutRequest {
         private String country;
     }
 
+    /**
+     * Represents a checkout customer.
+     */
     @Getter
     @Setter
     @NoArgsConstructor
@@ -140,6 +147,9 @@ public class AbstractCheckoutRequest {
         private String phone;
     }
 
+    /**
+     * Represents a checkout item.
+     */
     @Getter
     @Setter
     @NoArgsConstructor
@@ -165,6 +175,9 @@ public class AbstractCheckoutRequest {
         private BigDecimal linetotal;
     }
 
+    /**
+     * Represents a payment method.
+     */
     public enum PaymentMethod {
         CARD,
         CRYPTO,
@@ -178,6 +191,9 @@ public class AbstractCheckoutRequest {
         MADA;
     }
 
+    /**
+     * Represents checkout request totals.
+     */
     @Getter
     @Setter
     public static class CheckoutRequestTotals {

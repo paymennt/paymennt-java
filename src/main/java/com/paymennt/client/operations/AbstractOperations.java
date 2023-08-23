@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * Abstract class providing common operations for making HTTP requests.
+ * This class is designed to be extended for specific operations.
  *
  * @author Ankur
  */
@@ -34,11 +36,29 @@ public abstract class AbstractOperations {
     private final HttpClient httpClient;
     private final URI baseUri;
 
+    /**
+     * Constructor to initialize the AbstractOperations class.
+     *
+     * @param httpClient - The HttpClient to be used for making requests.
+     * @param baseUri - The base URI for the operation.
+     */
     protected AbstractOperations(HttpClient httpClient, URI baseUri) {
         this.httpClient = httpClient;
         this.baseUri = baseUri;
     }
 
+    /**
+     * Perform an HTTP GET request.
+     *
+     * @param path - The path of the URL.
+     * @param queryParameters - Query parameters to be added to the request.
+     * @param toValueType - Class to which the response should be cast.
+     * @param <T> - The generic type of the response.
+     * @return The response object of type T.
+     * @throws PaymenntClientException - Custom PaymenntClient exception.
+     * @throws URISyntaxException - Exception while creating URI.
+     * @throws IOException - In case of a problem or connection abortion.
+     */
     protected <T> T doGet(
             String path,
             Map<String, Object> queryParameters,
@@ -49,6 +69,19 @@ public abstract class AbstractOperations {
         return this.execute(httpGet, toValueType);
     }
 
+    /**
+     * Perform an HTTP POST request.
+     *
+     * @param path - The path of the URL.
+     * @param queryParameters - Query parameters to be added to the request.
+     * @param postBody - Request body for the post request.
+     * @param toValueType - Class to which the response should be cast.
+     * @param <T> - The generic type of the response.
+     * @return The response object of type T.
+     * @throws PaymenntClientException - Custom PaymenntClient exception.
+     * @throws URISyntaxException - Exception while creating URI.
+     * @throws IOException - In case of a problem or connection abortion.
+     */
     protected <T> T doPost(
             String path,
             Map<String, Object> queryParameters,
@@ -91,7 +124,7 @@ public abstract class AbstractOperations {
         TypeFactory typeFactory = JsonUtils.getObjectMapper().getTypeFactory();
         JavaType javaType = typeFactory.constructParametricType(ApiResponse.class, toValueType);
         ApiResponse<T> apiResponse = JsonUtils.decode(result, javaType);
-        if(!Objects.isNull(apiResponse.getError())){
+        if (!Objects.isNull(apiResponse.getError())) {
             throw new PaymenntClientException(apiResponse.getError());
         }
         return apiResponse.getResult();

@@ -17,25 +17,31 @@ import lombok.Setter;
 import java.util.Set;
 
 /**
+ * Represents a web checkout request, extending AbstractCheckoutRequest.
+ * This class holds specific properties for creating a web checkout.
+ * It provides validation for mandatory parameters required to create the web checkout.
  *
  * @author Ankur
  */
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({
-        "requestId", "orderId", "currency", "amount","totals", "items", "customer",
+        "requestId", "orderId", "currency", "amount", "totals", "items", "customer",
         "billingAddress", "deliveryAddress", "returnUrl", "branchId", "allowedPaymentMethods",
-        "defaultPaymentMethod",  "language"
+        "defaultPaymentMethod", "language"
 })
 public class WebCheckoutRequest extends AbstractCheckoutRequest {
-
 
     @NotBlank
     private String returnUrl;
 
+    /**
+     * Validates the mandatory parameters required to create the web checkout.
+     *
+     * @throws PaymenntClientException If parameter validation fails.
+     */
     public void validate() throws PaymenntClientException {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<WebCheckoutRequest>> violations = validator.validate(this);
