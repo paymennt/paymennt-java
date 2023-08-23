@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -62,7 +63,6 @@ public abstract class AbstractOperations {
         if (postBody != null) {
             HttpEntity entity = new StringEntity(JsonUtils.encode(postBody), ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
-            httpPost.setHeader("Content-type", "application/json");
         }
         return this.execute(httpPost, toValueType);
     }
@@ -91,6 +91,9 @@ public abstract class AbstractOperations {
         TypeFactory typeFactory = JsonUtils.getObjectMapper().getTypeFactory();
         JavaType javaType = typeFactory.constructParametricType(ApiResponse.class, toValueType);
         ApiResponse<T> apiResponse = JsonUtils.decode(result, javaType);
+        if(!Objects.isNull(apiResponse.getError())){
+            throw new PaymenntClientException(apiResponse.getError());
+        }
         return apiResponse.getResult();
     }
 }

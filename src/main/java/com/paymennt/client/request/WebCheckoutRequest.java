@@ -8,7 +8,6 @@ import com.paymennt.client.exception.PaymenntClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,13 +32,12 @@ import java.util.Set;
 })
 public class WebCheckoutRequest extends AbstractCheckoutRequest {
 
-    private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
 
     @NotBlank
     private String returnUrl;
 
     public void validate() throws PaymenntClientException {
-        Validator validator = VALIDATOR_FACTORY.getValidator();
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<WebCheckoutRequest>> violations = validator.validate(this);
 
         StringBuilder errorMessage = new StringBuilder();
