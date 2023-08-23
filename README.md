@@ -21,15 +21,15 @@ Please ensure that you securely store and manage your API key and secret, as the
 - To perform checkout operations, such as creating a checkout or retrieving checkout information, ensure that you provide valid parameters (refer official Paymennt API documentation).
     ```sh
 	    /**
-         * create checkout
-         * webCheckoutRequest is the request body required by Paymennt api to create the checkout.
-         */
+       * create checkout
+       * webCheckoutRequest is the request body required by Paymennt api to create the checkout.
+       */
 		Checkout checkout = operations.createWebCheckout({webCheckoutRequest});
 
 	    /**
-         * get checkout details
-         * use checkoutId retrieved from paymennt API.
-         */
+       * get checkout details
+       * use checkoutId retrieved from paymennt API.
+       */
 		Checkout checkout = operations.getCheckout({checkoutId});
     ```
 
