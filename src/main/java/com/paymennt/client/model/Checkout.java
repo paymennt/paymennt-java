@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Checkout extends PaymenntModel {
+public class Checkout {
 
         private String id;
         private String displayId;

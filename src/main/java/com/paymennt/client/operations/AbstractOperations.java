@@ -3,16 +3,14 @@
  */
 package com.paymennt.client.operations;
 
-import com.paymennt.client.PaymenntClient;
-
 /**
  *
  * @author Ankur
  */
 public class AbstractOperations {
-    protected final PaymenntClient client;
+    protected final PaymenntApiTransport client;
 
-    public AbstractOperations(PaymenntClient client) {
+    public AbstractOperations(PaymenntApiTransport client) {
         this.client = client;
     }
 }
