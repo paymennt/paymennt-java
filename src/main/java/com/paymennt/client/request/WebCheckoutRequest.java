@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Set;
 
@@ -32,6 +33,7 @@ import java.util.Set;
         "billingAddress", "deliveryAddress", "returnUrl", "branchId", "allowedPaymentMethods",
         "defaultPaymentMethod", "language"
 })
+@Log4j2
 public class WebCheckoutRequest extends AbstractCheckoutRequest {
 
     @NotBlank
@@ -54,7 +56,9 @@ public class WebCheckoutRequest extends AbstractCheckoutRequest {
                 String message = violation.getMessage();
                 errorMessage.append("- ").append(fieldName).append(": ").append(message).append("\n");
             }
+            log.error("Validation error: {} for requestId: {}, orderId: {}", errorMessage, getRequestId(), getOrderId());
             throw new PaymenntClientException("Validation error: " + errorMessage);
         }
+        log.info("Web checkout request is valid. RequestId: {}, orderId: {}", getRequestId(), getOrderId());
     }
 }

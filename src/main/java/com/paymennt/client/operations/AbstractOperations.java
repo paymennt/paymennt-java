@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.paymennt.client.exception.PaymenntClientException;
 import com.paymennt.client.response.ApiResponse;
 import com.paymennt.client.utils.JsonUtils;
+import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,6 +32,8 @@ import java.util.Objects;
  *
  * @author Ankur
  */
+
+@Log4j2
 public abstract class AbstractOperations {
 
     private final HttpClient httpClient;
@@ -66,6 +69,7 @@ public abstract class AbstractOperations {
 
         URI uri = this.getURI(path, queryParameters);
         HttpGet httpGet = new HttpGet(uri);
+        log.info("Performing GET request to: {}", uri);
         return this.execute(httpGet, toValueType);
     }
 
@@ -93,6 +97,7 @@ public abstract class AbstractOperations {
 
         URI uri = this.getURI(path, queryParameters);
         HttpPost httpPost = new HttpPost(uri);
+        log.info("Performing POST request to: {}", uri);
         if (postBody != null) {
             HttpEntity entity = new StringEntity(JsonUtils.encode(postBody), ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
@@ -125,8 +130,11 @@ public abstract class AbstractOperations {
         JavaType javaType = typeFactory.constructParametricType(ApiResponse.class, toValueType);
         ApiResponse<T> apiResponse = JsonUtils.decode(result, javaType);
         if (!Objects.isNull(apiResponse.getError())) {
+            log.error("Request failed with error: {}", apiResponse.getError());
             throw new PaymenntClientException(apiResponse.getError());
         }
+
+        log.info("Request successful.");
         return apiResponse.getResult();
     }
 }
