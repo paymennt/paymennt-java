@@ -92,9 +92,9 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T decode(InputStream inputStream, Class<T> castAs) throws PaymenntClientException {
+    public static <T> T decode(InputStream inputStream, Class<T> toValueType) throws PaymenntClientException {
         try {
-            return JsonUtils.OBJECT_MAPPER.readValue(inputStream, castAs);
+            return JsonUtils.OBJECT_MAPPER.readValue(inputStream, toValueType);
         } catch (Exception e) {
             throw new PaymenntClientException("Failed to decode inputstream", e);
         }
@@ -109,17 +109,33 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T decode(String jsonString, Class<T> castAs) throws PaymenntClientException {
+    public static <T> T decode(String jsonString, Class<T> toValueType) throws PaymenntClientException {
         try {
-            return JsonUtils.OBJECT_MAPPER.readValue(jsonString, castAs);
+            return JsonUtils.OBJECT_MAPPER.readValue(jsonString, toValueType);
         } catch (Exception e) {
             throw new PaymenntClientException("Failed to decode input string", e);
         }
     }
 
-    public static <T> T decode(Object object, Class<T> castAs) throws PaymenntClientException {
+    public static <T> T decode(String jsonString, JavaType javaType) throws PaymenntClientException {
         try {
-            return JsonUtils.OBJECT_MAPPER.convertValue(object, castAs);
+            return JsonUtils.OBJECT_MAPPER.readValue(jsonString, javaType);
+        } catch (Exception e) {
+            throw new PaymenntClientException("Failed to decode input string", e);
+        }
+    }
+
+    public static <T> T decode(String jsonString, TypeReference<T> typeReference) throws PaymenntClientException {
+        try {
+            return JsonUtils.OBJECT_MAPPER.readValue(jsonString, typeReference);
+        } catch (Exception e) {
+            throw new PaymenntClientException("Failed to decode input string", e);
+        }
+    }
+
+    public static <T> T decode(Object object, Class<T> toValueType) throws PaymenntClientException {
+        try {
+            return JsonUtils.OBJECT_MAPPER.convertValue(object, toValueType);
         } catch (Exception e) {
             throw new PaymenntClientException("Failed to decode input string", e);
         }

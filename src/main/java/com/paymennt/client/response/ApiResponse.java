@@ -3,7 +3,6 @@
  */
 package com.paymennt.client.response;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -21,14 +20,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ApiResponse {
+public class ApiResponse<T> {
     @JsonProperty("success")
-    private boolean success = true;
+    private boolean success;
 
     @JsonProperty("elapsed")
-    private long elapsed = 10;
+    private long elapsed;
+
+    @JsonProperty("error")
+    private String error;
 
     @JsonProperty("result")
-    @JsonAlias("error")
-    private Object result;
+    private T result;
 }

@@ -16,7 +16,6 @@ import java.math.BigDecimal;
  *
  * @author Ankur
  */
-
 @Getter
 @Setter
 @AllArgsConstructor

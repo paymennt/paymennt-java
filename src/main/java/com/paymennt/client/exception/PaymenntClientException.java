@@ -1,8 +1,18 @@
+/************************************************************************
+ * Copyright PointCheckout Ltd.
+ */
 package com.paymennt.client.exception;
 
 import lombok.Getter;
 
+import java.io.Serial;
+
+/**
+ *
+ * @author Ankur
+ */
 public class PaymenntClientException extends Exception {
+    @Serial
     private static final long serialVersionUID = 326864452189922315L;
 
     @Getter
@@ -19,11 +29,6 @@ public class PaymenntClientException extends Exception {
 
     public PaymenntClientException(String message, Object... args) {
         this(-1,String.format(message, args));
-    }
-
-    public PaymenntClientException(int responseCode, String message, Object... args) {
-        super(String.format(message, args));
-        this.responseCode= responseCode;
     }
 
     public PaymenntClientException(String message, Throwable cause, Object... args) {

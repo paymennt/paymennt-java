@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -84,6 +85,7 @@ public class AbstractCheckoutRequest {
     @Getter
     @Setter
     public static class CheckoutAddress implements Serializable {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @NotBlank
@@ -116,6 +118,7 @@ public class AbstractCheckoutRequest {
     @Setter
     @NoArgsConstructor
     public static class CheckoutCustomer implements Serializable {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @Length(max = 50)
